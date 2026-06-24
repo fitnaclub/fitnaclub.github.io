@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitna Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#13241b;
+    --forest-2:#1d3a2a;
+    --moss:#7d9471;
+    --gold:#c9a24b;
+    --gold-soft:#e3c987;
+    --cream:#f4f1e9;
+    --ink:#0c1611;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Outfit',sans-serif;background:var(--forest);color:var(--cream);-webkit-font-smoothing:antialiased;}
+
+  /* NAV */
+  .nav{
+    position:absolute;top:0;left:0;right:0;z-index:10;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:28px 40px;
+  }
+  .brand{
+    font-family:'Fraunces',serif;font-weight:400;
+    font-size:24px;letter-spacing:6px;color:var(--cream);
+    text-transform:uppercase;
+  }
+  .brand b{font-weight:600;}
+  .nav-menu{display:flex;gap:34px;align-items:center;}
+  .nav-menu a{
+    color:var(--cream);text-decoration:none;font-size:14px;
+    letter-spacing:1px;opacity:.85;transition:opacity .2s,color .2s;
+  }
+  .nav-menu a:hover{opacity:1;color:var(--gold-soft);}
+  .nav-intake{
+    background:var(--gold) !important;
+    color:var(--ink) !important;
+    padding:9px 18px !important;
+    border-radius:3px;
+    font-weight:600 !important;
+    letter-spacing:1.2px !important;
+    opacity:1 !important;
+    transition:background .2s,transform .2s !important;
+  }
+  .nav-intake:hover{background:var(--gold-soft) !important;transform:translateY(-1px);}
+  .nav-burger{display:none;align-items:center;gap:10px;cursor:pointer;
+    background:rgba(244,241,233,.08);border:1px solid rgba(244,241,233,.25);
+    padding:9px 16px;border-radius:4px;}
+  .nav-burger .bars{display:flex;flex-direction:column;gap:5px;}
+  .nav-burger .bars span{width:22px;height:2px;background:var(--cream);display:block;}
+  .nav-burger .menu-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--cream);font-weight:500;}
+  .mobile-menu{display:none;position:absolute;top:78px;right:20px;z-index:20;
+    background:var(--forest-2);border:1px solid rgba(201,162,75,.3);border-radius:8px;
+    padding:10px 0;min-width:200px;box-shadow:0 16px 40px rgba(0,0,0,.45);}
+  .mobile-menu.open{display:block;}
+  .mobile-menu a{display:block;padding:13px 22px;color:var(--cream);text-decoration:none;
+    font-size:15px;letter-spacing:.5px;}
+  .mobile-menu a:active,.mobile-menu a:hover{background:rgba(201,162,75,.15);color:var(--gold-soft);}
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:100vh;overflow:hidden;
+    display:grid;grid-template-columns:1.05fr .95fr;
+  }
+  .hero-left{
+    position:relative;z-index:3;
+    padding:140px 56px 64px;
+    display:flex;flex-direction:column;justify-content:center;
+    background:
+      radial-gradient(120% 120% at 0% 0%, var(--forest-2) 0%, var(--forest) 55%);
+  }
+  .eyebrow{
+    display:flex;align-items:center;gap:14px;
+    font-size:12.5px;letter-spacing:3.5px;text-transform:uppercase;
+    color:var(--gold-soft);margin-bottom:30px;font-weight:500;
+  }
+  .eyebrow::before{
+    content:"";width:42px;height:1.5px;background:var(--gold);display:inline-block;
+  }
+  h1.head{
+    font-family:'Fraunces',serif;font-weight:300;
+    font-size:clamp(38px,4.6vw,66px);line-height:1.06;
+    letter-spacing:-.5px;color:var(--cream);margin-bottom:26px;
+  }
+  h1.head em{font-style:italic;color:var(--gold-soft);font-weight:400;}
+  h1.head b{font-weight:600;}
+  .lede{
+    font-size:clamp(15px,1.25vw,18px);line-height:1.75;
+    color:#d6dbd2;max-width:30em;margin-bottom:14px;font-weight:300;
+  }
+  .lede strong{color:var(--cream);font-weight:500;}
+  .reassure{
+    font-size:14.5px;line-height:1.7;color:var(--moss);
+    max-width:30em;margin-bottom:40px;font-style:italic;
+    font-family:'Fraunces',serif;
+  }
+
+  /* CTA ROW — now stacks in two rows */
+  .cta-row{display:flex;flex-direction:column;gap:12px;align-items:flex-start;}
+  .cta-top{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+
+  /* intake strip */
+  .intake-strip{
+    display:flex;align-items:center;gap:14px;
+    background:rgba(201,162,75,.10);
+    border:1px solid rgba(201,162,75,.30);
+    border-radius:4px;
+    padding:13px 20px;
+    max-width:fit-content;
+    transition:background .2s,border-color .2s;
+  }
+  .intake-strip:hover{
+    background:rgba(201,162,75,.18);
+    border-color:rgba(201,162,75,.55);
+  }
+  .intake-strip-text{display:flex;flex-direction:column;gap:2px;}
+  .intake-strip-title{
+    font-size:13px;letter-spacing:1.4px;text-transform:uppercase;
+    font-weight:600;color:var(--gold-soft);
+  }
+  .intake-strip-sub{
+    font-size:12px;color:#aebaa6;letter-spacing:.3px;
+  }
+  .intake-strip-arrow{
+    font-size:18px;color:var(--gold-soft);margin-left:4px;
+    transition:transform .2s;
+  }
+  .intake-strip:hover .intake-strip-arrow{transform:translateX(4px);}
+
+  .btn{
+    font-family:'Outfit',sans-serif;font-size:13.5px;letter-spacing:1.8px;
+    text-transform:uppercase;font-weight:500;cursor:pointer;
+    padding:17px 34px;border:none;text-decoration:none;display:inline-block;
+    transition:transform .2s,box-shadow .2s,background .2s,color .2s;
+  }
+  .btn-primary{background:var(--gold);color:var(--ink);}
+  .btn-primary:hover{background:var(--gold-soft);transform:translateY(-2px);
+    box-shadow:0 12px 26px rgba(201,162,75,.28);}
+  .btn-ghost{background:transparent;color:var(--cream);border:1.5px solid rgba(244,241,233,.4);}
+  .btn-ghost:hover{border-color:var(--gold-soft);color:var(--gold-soft);}
+
+  .credentials{
+    display:flex;gap:26px;margin-top:48px;flex-wrap:wrap;
+    padding-top:26px;border-top:1px solid rgba(244,241,233,.12);
+  }
+  .cred{display:flex;flex-direction:column;gap:3px;}
+  .cred b{font-family:'Fraunces',serif;font-size:21px;color:var(--gold-soft);font-weight:500;}
+  .cred span{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:#aebaa6;}
+
+  /* RIGHT / PHOTO */
+  .hero-right{position:relative;z-index:1;}
+  .photo{
+    position:absolute;inset:0;
+    background-image:url("IMG_2183.jpeg");
+    background-size:cover;background-position:50% 28%;
+    filter:saturate(.92) contrast(1.02);
+  }
+  .photo::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(90deg, var(--forest) 0%, rgba(19,36,27,.45) 22%, rgba(19,36,27,.05) 48%, transparent 100%),
+      linear-gradient(180deg, rgba(19,36,27,.35) 0%, transparent 30%, rgba(19,36,27,.45) 100%);
+  }
+  .photo-tag{
+    position:absolute;left:32px;bottom:30px;z-index:4;
+    font-family:'Fraunces',serif;font-style:italic;font-size:15px;
+    color:var(--cream);text-shadow:0 1px 12px rgba(0,0,0,.6);
+    display:flex;align-items:center;gap:10px;
+  }
+  .photo-tag::before{content:"";width:26px;height:1px;background:var(--gold-soft);}
+
+  /* MOBILE */
+  @media(max-width:860px){
+    .nav-menu{display:none;}
+    .nav-burger{display:flex;}
+    .hero{grid-template-columns:1fr;}
+    .hero-right{position:absolute;inset:0;z-index:1;}
+    .photo{background-position:50% 22%;}
+    .photo::after{
+      background:linear-gradient(180deg, rgba(19,36,27,.55) 0%, rgba(19,36,27,.72) 45%, rgba(19,36,27,.96) 100%);
+    }
+    .hero-left{
+      position:relative;z-index:3;background:transparent;
+      padding:120px 26px 56px;min-height:100vh;justify-content:flex-end;
+    }
+    .photo-tag{display:none;}
+    .credentials{margin-top:38px;}
+    .intake-strip{max-width:100%;}
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand">Fitna<b>&nbsp;Club</b></div>
+    <div class="nav-menu">
+      <a href="specialties.html">Specialties</a>
+      <a href="how.html">How It Works</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="community.html">Community</a>
+      <a href="credentials.html">Credentials</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="intake.html" class="nav-intake">New Client Intake</a>
+    </div>
+    <div class="nav-burger" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+      <div class="bars"><span></span><span></span><span></span></div>
+      <span class="menu-label">Menu</span>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="specialties.html">Specialties</a>
+      <a href="how.html">How It Works</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="community.html">Community</a>
+      <a href="credentials.html">Credentials</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="intake.html" style="color:var(--gold-soft);font-weight:600;border-top:1px solid rgba(201,162,75,.2);margin-top:4px;">✦ New Client Intake</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">Richmond Hill, Ontario &nbsp;&middot;&nbsp; Women's Fitness &amp; Nutrition</div>
+      <h1 class="head">Hi, ladies.<br>Your <em>specialized</em> health journey <b>starts here.</b></h1>
+      <p class="lede">
+        I'm Narges &mdash; a certified personal trainer and exercise therapist. I'm here to help you
+        feel strong, healthy, and supported through <strong>every stage of a woman's life</strong>:
+        pregnancy, postpartum, perimenopause, and postmenopause.
+      </p>
+      <p class="lede">
+        With workouts and <strong>nutrition guidance</strong> built on real evidence, we'll work toward
+        your goals together &mdash; losing weight, building muscle, easing joint pain, and improving
+        your overall fitness. Every program starts with a proper assessment, not guesswork.
+      </p>
+      <p class="reassure">
+        Busy schedule or tight budget? Don't worry &mdash; I have an option that works for you, too.
+      </p>
+
+      <div class="cta-row">
+        <!-- Primary actions -->
+        <div class="cta-top">
+          <a href="pricing.html" class="btn btn-primary">Book a Free Assessment</a>
+          <a href="specialties.html" class="btn btn-ghost">See What I Offer</a>
+        </div>
+        <!-- Intake form strip -->
+        <a href="intake.html" class="intake-strip">
+          <div class="intake-strip-text">
+            <span class="intake-strip-title">New Client? Start Here</span>
+            <span class="intake-strip-sub">Fill out your health &amp; nutrition intake form &rarr; takes 15 min</span>
+          </div>
+          <span class="intake-strip-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="credentials">
+        <div class="cred"><b>30+ yrs</b><span>Coaching experience</span></div>
+        <div class="cred"><b>Certified</b><span>Canadian Fitness Professionals Member<br>American Exercise Therapist Association Member</span></div>
+        <div class="cred"><b>Evidence</b><span>Science-based programs</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="photo"></div>
+      <div class="photo-tag">Narges &middot; Founder, Fitna Club</div>
+    </div>
+  </section>
+</body>
+</html>
