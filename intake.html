@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fitna Club — Complete Client Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFFFFF;--border:#DDD5C8;
+  --sage:#8A9E85;--sage-dark:#6B7D67;--sage-light:#C5D4C1;--sage-pale:#EBF0EA;
+  --gold:#C9A84C;--gold-light:#F0E4C0;
+  --brown:#5C4A2A;--brown-light:#8C7250;
+  --text:#2E2A24;--muted:#7A7267;
+  --error:#B05040;--error-bg:#FDF3F0;
+  --rose:#9E7A8A;--rose-pale:#F7F0F4;
+  --blue:#6B7D9E;--blue-pale:#EEF0F7;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* ── Header ── */
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(90,74,42,0.06)}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-icon{width:36px;height:36px;background:var(--sage);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-name{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;color:var(--brown);letter-spacing:0.03em}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;margin-top:1px}
+.progress-info{font-size:12px;color:var(--muted);white-space:nowrap}
+.progress-info span{color:var(--sage);font-weight:700}
+
+/* ── Progress bar ── */
+.progress-bar-wrap{height:4px;background:var(--sage-light)}
+.progress-bar{height:100%;background:var(--gold);transition:width 0.4s ease}
+
+/* ── Part banner ── */
+.part-banner{padding:8px 20px;display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
+
+/* ── Wrap ── */
+.wrap{max-width:680px;margin:0 auto;padding:28px 16px 100px}
+
+/* ── Welcome ── */
+.welcome{text-align:center;padding:16px 0}
+.welcome-emoji{font-size:50px;margin-bottom:14px}
+.welcome h1{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--brown);line-height:1.25;margin-bottom:12px}
+.welcome p{color:var(--muted);font-size:14.5px;line-height:1.75;max-width:440px;margin:0 auto 26px}
+
+.part-block{margin-bottom:20px;text-align:left;max-width:460px;margin-left:auto;margin-right:auto}
+.part-heading{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.section-pill{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--white);border:1px solid var(--border);border-radius:9px;font-size:12.5px;color:var(--text)}
+.section-pill .pill-icon{font-size:15px;flex-shrink:0}
+
+/* ── Section header ── */
+.section-header{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.section-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--brown)}
+
+/* ── Card ── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:22px}
+
+/* ── Fields ── */
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:13.5px;font-weight:600;color:var(--brown)}
+.field label .req{color:var(--gold);margin-left:3px}
+.field .hint{font-size:12px;color:var(--muted);line-height:1.5}
+input[type="text"],input[type="number"],input[type="date"],input[type="time"],select,textarea{
+  width:100%;padding:10px 13px;background:var(--white);border:1.5px solid var(--border);
+  border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);
+  outline:none;transition:border-color 0.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--sage)}
+textarea{resize:vertical;line-height:1.6}
+select{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A9E85' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+
+/* ── Options ── */
+.options{display:flex;flex-direction:column;gap:6px}
+.opt-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13.5px;transition:all 0.15s;user-select:none;line-height:1.4}
+.opt-item:hover{border-color:var(--sage-light);background:var(--sage-pale)}
+.opt-item.selected{background:#EBF5EA;border-color:var(--sage)}
+.opt-marker{width:17px;height:17px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;font-size:9px;font-weight:700;color:var(--white)}
+.opt-marker.radio{border-radius:50%}
+.opt-marker.checkbox{border-radius:4px}
+.opt-item.selected .opt-marker{background:var(--sage);border-color:var(--sage)}
+
+/* ── Sub-label ── */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);padding-top:4px;border-top:1px solid var(--border);margin-bottom:-6px}
+
+/* ── Error ── */
+.err-msg{font-size:12px;color:var(--error);margin-top:1px;display:none}
+.err-msg.show{display:block}
+.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:var(--error)}
+
+/* ── Nav ── */
+.nav{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.btn{padding:12px 26px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s}
+.btn-back{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.btn-back:hover{border-color:var(--sage-light);color:var(--text)}
+.btn-next{color:var(--white)}
+.btn-next:hover{opacity:0.88}
+
+/* ── Summary ── */
+.summary-card{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:11px}
+.summary-section-head{display:flex;align-items:center;gap:8px;padding-bottom:10px;margin-bottom:11px;border-bottom:1px solid var(--border);font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--brown);font-weight:700}
+.summary-row{display:flex;gap:10px;font-size:12.5px;margin-bottom:7px;line-height:1.5}
+.summary-label{color:var(--muted);min-width:155px;flex-shrink:0}
+.summary-value{color:var(--text);font-weight:500}
+.btn-email{width:100%;padding:15px;background:var(--sage);color:var(--white);border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;transition:opacity 0.2s}
+.btn-email:hover{opacity:0.88}
+.btn-dl{width:100%;padding:12px;background:transparent;border:1.5px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:9px;transition:all 0.15s}
+.btn-dl:hover{border-color:var(--gold);color:var(--brown)}
+.thank-box{margin-top:22px;padding:18px;background:var(--sage-pale);border-radius:12px;text-align:center;font-size:13.5px;color:var(--sage-dark);line-height:1.7}
+
+@media(max-width:480px){
+  .section-grid{grid-template-columns:1fr}
+  .summary-label{min-width:120px}
+  .card{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">🌿</div>
+    <div>
+      <div class="logo-name">Fitna Club</div>
+      <div class="logo-sub">Complete Client Intake</div>
+    </div>
+  </div>
+  <div class="progress-info" id="progressInfo"></div>
+</div>
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const SECTIONS = [
+
+  /* ══════════════ PART A — ABOUT YOU ══════════════ */
+  {
+    id:"personal", part:"A", partLabel:"About You", partColor:"#8A9E85", partPale:"#EBF0EA",
+    title:"Personal Information", icon:"👤",
+    color:"#8A9E85", pale:"#EBF0EA",
+    fields:[
+      {id:"name",        label:"Full Name",           type:"text",   required:true},
+      {id:"dob",         label:"Date of Birth",       type:"date",   required:true},
+      {id:"gender",      label:"Gender",              type:"radio",  required:true,
+        options:["Female","Male","Prefer not to say"]},
+      {id:"height",      label:"Height (cm)",         type:"number", required:true},
+      {id:"weightNow",   label:"Current Weight (kg)", type:"number", required:true},
+      {id:"weightGoal",  label:"Goal Weight (kg)",    type:"number"},
+      {id:"occupation",  label:"Occupation",          type:"text"},
+      {id:"activityJob", label:"How physical is your daily job?", type:"radio",
+        options:["Mostly sitting – desk / remote","Mix of sitting and standing","On my feet most of the day","Physically demanding"]},
+      {id:"referral",    label:"How did you hear about Fitna Club?", type:"text"},
+    ]
+  },
+
+  /* ══════════════ PART B — HEALTH & MEDICINE ══════════════ */
+  {
+    id:"health", part:"B", partLabel:"Health & Medicine", partColor:"#B05040", partPale:"#FDF3F0",
+    title:"Health Conditions & Medications", icon:"🩺",
+    color:"#B05040", pale:"#FDF3F0",
+    fields:[
+      {id:"conditions", label:"Current or past medical conditions (select all that apply)", type:"checkbox",
+        options:["Type 2 Diabetes / Pre-diabetes","Thyroid disorder (hypo/hyper)","Hashimoto's disease","PCOS","High blood pressure","High cholesterol / Triglycerides","Heart disease / Arrhythmia","Asthma / Respiratory","Osteoporosis / Osteopenia","Fibromyalgia / Chronic fatigue","Autoimmune condition","Cancer (current or past)","Anxiety / Depression","Digestive issues (IBS, GERD, Crohn's)","Kidney disease","Liver condition","Iron-deficiency Anemia","Vitamin D deficiency","Low blood pressure","Restless leg syndrome","None of the above"]},
+      {id:"conditionDetails", label:"Describe any condition — severity, how long, current treatment", type:"textarea"},
+      {id:"medications", label:"Current medications (select all that apply)", type:"checkbox",
+        options:["GLP-1 – Ozempic (semaglutide)","GLP-1 – Wegovy","GLP-1/GIP – Mounjaro (tirzepatide)","Thyroid – Levothyroxine / Synthroid","Blood pressure medication","Cholesterol / Statins","Antidepressant / Anti-anxiety","Birth control / Oral contraceptive","HRT – Hormone Replacement Therapy","Blood thinners","Beta-blocker","Corticosteroids (prednisone)","Metformin","Iron supplements","Vitamin D","Magnesium","None"]},
+      {id:"medicationOther", label:"Other medications or supplements not listed", type:"textarea", placeholder:"Name, dose, reason…"},
+      {id:"glp1Detail",  label:"If on GLP-1 / Mounjaro — dose, how long, side effects affecting eating or exercise?", type:"textarea"},
+      {id:"allergies",   label:"Food allergies or intolerances", type:"checkbox",
+        options:["Lactose / Dairy","Gluten / Wheat","Nuts / Tree nuts","Shellfish","Eggs","Soy","Fructose","Nightshades","None"]},
+      {id:"allergiesOther", label:"Other food intolerances not listed", type:"text"},
+      {id:"surgery",     label:"Have you had any surgeries?", type:"radio", options:["No","Yes"]},
+      {id:"surgeryDetails", label:"If yes — what surgery and when?", type:"textarea", placeholder:"e.g. C-section 2020, gastric sleeve 2018, knee arthroscopy 2022…"},
+      {id:"physio",      label:"Are you currently seeing a doctor, physio, or specialist?", type:"radio", options:["No","Yes"]},
+      {id:"physioDetails", label:"If yes — for what, and any restrictions given?", type:"textarea"},
+      {id:"pregnant",    label:"Are you currently pregnant or postpartum (within 12 months)?", type:"radio",
+        options:["No","Currently pregnant","Postpartum – within 6 months","Postpartum – 6–12 months ago"]},
+    ]
+  },
+
+  /* ══════════════ PART C — JOINTS & INJURIES ══════════════ */
+  {
+    id:"joints", part:"C", partLabel:"Joints & Injuries", partColor:"#8C7250", partPale:"#F5EFE8",
+    title:"Joint & Injury History", icon:"🦴",
+    color:"#8C7250", pale:"#F5EFE8",
+    fields:[
+      {id:"painNow",    label:"Do you currently have pain, discomfort, or stiffness anywhere?", type:"radio", required:true,
+        options:["No","Yes – mild","Yes – moderate","Yes – severe"]},
+      {id:"painAreas",  label:"Current pain or discomfort locations (select all that apply)", type:"checkbox",
+        options:["Neck / Cervical spine","Upper back / Thoracic","Lower back / Lumbar","Left shoulder","Right shoulder","Left elbow","Right elbow","Left wrist / hand","Right wrist / hand","Left hip","Right hip","Left knee","Right knee","Left ankle","Right ankle","Left foot / Plantar fascia","Right foot / Plantar fascia","None"]},
+      {id:"painDescription", label:"Describe the pain — type, when it occurs, what makes it worse", type:"textarea",
+        placeholder:"e.g. Left knee aches on stairs, sharp lower back on bending, dull shoulder ache overhead…"},
+      {id:"injuryHistory", label:"Past injuries (select all that apply)", type:"checkbox",
+        options:["Rotator cuff (shoulder)","Shoulder dislocation / instability","Neck / whiplash","Herniated disc","Lower back strain / sciatica","Hip labrum tear","Knee ligament (ACL / MCL / PCL)","Meniscus tear","Baker's cyst","Ankle sprain / ligament","Plantar fasciitis","Tennis / golfer's elbow","Wrist / thumb / carpal tunnel","Fracture / broken bone","Hyperlordosis (excessive lower back curve)","Kyphosis (rounded upper back)","None"]},
+      {id:"injuryDetails", label:"Describe any past injury — what, when, and recovery status", type:"textarea"},
+      {id:"avoidMovements", label:"Have you been told to avoid any movements or exercises?", type:"radio", options:["No","Yes"]},
+      {id:"avoidDetails",   label:"If yes — list movements to avoid", type:"textarea",
+        placeholder:"e.g. no deep squats, avoid overhead press, no running, no jumping…"},
+      {id:"jointSupports",  label:"Do you use any supports or braces during exercise?", type:"checkbox",
+        options:["Knee brace","Ankle brace","Wrist support / thumb splint","Back support / belt","Compression sleeves","None"]},
+      {id:"postureIssues",  label:"Have you been told you have any posture issues?", type:"checkbox",
+        options:["Hyperlordosis (anterior pelvic tilt)","Kyphosis (rounded shoulders / upper back)","Scoliosis","Forward head posture","Flat feet / Pes planus","Knock knees / Genu valgum","Swayback posture","None / not assessed"]},
+    ]
+  },
+
+  /* ══════════════ PART D — FITNESS HISTORY ══════════════ */
+  {
+    id:"fitness_history", part:"D", partLabel:"Fitness History", partColor:"#6B7D67", partPale:"#DDE8DB",
+    title:"Fitness History", icon:"📋",
+    color:"#6B7D67", pale:"#DDE8DB",
+    fields:[
+      {id:"fitnessBackground", label:"How would you describe your fitness background?", type:"radio", required:true,
+        options:["Complete beginner – never exercised consistently","Beginner – exercised occasionally in the past","Intermediate – been active on and off for years","Experienced – consistent training 2+ years","Athletic background – sport or competitive training"]},
+      {id:"pastActivities", label:"Activities or sports you have done in the past (select all that apply)", type:"checkbox",
+        options:["Walking / hiking","Running / jogging","Swimming","Cycling","Weight training / gym","Pilates / mat work","Yoga","Dance / Zumba","Team sports (volleyball, soccer, etc.)","Martial arts","Group fitness classes","None"]},
+      {id:"longestConsistent", label:"Longest period you exercised consistently", type:"radio",
+        options:["Never consistently","Less than 1 month","1–3 months","3–6 months","6–12 months","Over 1 year","Over 3 years"]},
+      {id:"whyStopped", label:"If you stopped before, what was the main reason?", type:"checkbox",
+        options:["Injury or pain","Too busy / no time","Lost motivation","No guidance – didn't know what to do","Felt too tired / low energy","Life event (pregnancy, illness, move)","Didn't see results fast enough","Never stopped – still active"]},
+      {id:"fitnessNotes", label:"Any other fitness history worth sharing?", type:"textarea"},
+    ]
+  },
+
+  /* ══════════════ PART E — CURRENT ACTIVITY ══════════════ */
+  {
+    id:"activity", part:"E", partLabel:"Current Activity", partColor:"#8A9E85", partPale:"#EBF0EA",
+    title:"Current Activity Level", icon:"💪",
+    color:"#8A9E85", pale:"#EBF0EA",
+    fields:[
+      {id:"currentLevel", label:"How active are you right now?", type:"radio", required:true,
+        options:["Not active – starting fresh","Lightly active – 1–2 sessions / week","Moderately active – 3–4 sessions / week","Very active – 5+ sessions / week"]},
+      {id:"currentTypes", label:"Current exercise types (select all that apply)", type:"checkbox",
+        options:["Walking (daily)","Running / jogging","Online group fitness class","In-person personal training","Home workout (solo)","Gym – weights","Pilates / mat","Yoga","Swimming","Cycling / spin","Team sport","None currently"]},
+      {id:"sessionDuration", label:"Typical session length", type:"radio",
+        options:["Under 20 min","20–30 min","30–45 min","45–60 min","Over 60 min"]},
+      {id:"preferredTime", label:"Preferred workout time of day", type:"radio",
+        options:["Early morning (before 8 am)","Morning (8 am–noon)","Midday (noon–2 pm)","Afternoon (2–5 pm)","Evening (5–8 pm)","Late evening (after 8 pm)","No preference"]},
+      {id:"equipment", label:"Equipment available at home (select all that apply)", type:"checkbox",
+        options:["No equipment – bodyweight only","Resistance bands","Dumbbells light (1–5 kg)","Dumbbells medium (5–12 kg)","Dumbbells heavy (12 kg+)","Kettlebell","Yoga / exercise mat","Stability ball","Pull-up bar","Full home gym"]},
+      {id:"stepsPerDay", label:"Approximate daily steps", type:"radio",
+        options:["Under 3,000","3,000–5,000","5,000–8,000","8,000–10,000","10,000+","I don't track steps"]},
+      {id:"activityNotes", label:"Anything else about your current activity or schedule?", type:"textarea"},
+    ]
+  },
+
+  /* ══════════════ PART F — HORMONES ══════════════ */
+  {
+    id:"hormones", part:"F", partLabel:"Hormonal Health", partColor:"#9E7A8A", partPale:"#F7F0F4",
+    title:"Hormonal & Women's Health", icon:"🌸",
+    color:"#9E7A8A", pale:"#F7F0F4",
+    fields:[
+      {id:"menstrualStatus", label:"Current menstrual / hormonal status", type:"radio", required:true,
+        options:["Regular cycles (21–35 days)","Irregular cycles","On hormonal birth control","Peri-menopausal – cycles changing","Post-menopausal – 12+ months no period","Surgically menopausal","Not applicable"]},
+      {id:"menopauseSymptoms", label:"Peri / post-menopause symptoms (select all that apply)", type:"checkbox",
+        options:["Hot flashes / night sweats","Sleep disruption","Brain fog / memory issues","Mood swings / irritability","Low energy / fatigue","Low libido","Weight gain around abdomen","Joint pain or stiffness","Hair thinning","Heart palpitations","Bloating / digestive changes","None / not applicable"]},
+      {id:"hrtStatus", label:"Are you on HRT?", type:"radio",
+        options:["No","Yes – oestrogen only","Yes – combined (oestrogen + progesterone)","Yes – includes testosterone","Considering it"]},
+      {id:"thyroidStatus", label:"Thyroid status", type:"radio",
+        options:["Normal / not tested","Hypothyroidism (under-active)","Hyperthyroidism (over-active)","Hashimoto's disease","Thyroid removed","Under investigation"]},
+      {id:"thyroidEffect", label:"How does your thyroid condition affect energy, weight, or digestion?", type:"textarea"},
+      {id:"insulinResistance", label:"Have you been told you have insulin resistance or metabolic syndrome?", type:"radio",
+        options:["No","Yes – confirmed","Suspected / borderline","Not sure"]},
+      {id:"boneHealth", label:"Have you had a bone density (DEXA) scan?", type:"radio",
+        options:["No","Yes – normal","Yes – osteopenia","Yes – osteoporosis"]},
+      {id:"hormoneNotes", label:"Anything else about your hormonal health or energy?", type:"textarea"},
+    ]
+  },
+
+  /* ══════════════ PART G — SLEEP & STRESS ══════════════ */
+  {
+    id:"sleep", part:"G", partLabel:"Sleep & Stress", partColor:"#6B7D9E", partPale:"#EEF0F7",
+    title:"Sleep & Stress", icon:"🌙",
+    color:"#6B7D9E", pale:"#EEF0F7",
+    fields:[
+      {id:"sleepHours", label:"Average hours of sleep per night", type:"radio", required:true,
+        options:["Less than 5 hours","5–6 hours","6–7 hours","7–8 hours","More than 8 hours"]},
+      {id:"sleepQuality", label:"Sleep quality", type:"radio", required:true,
+        options:["Good – fall asleep easily, wake rested","Fair – sometimes tired or restless","Poor – broken sleep or hard to fall asleep","Very poor – chronic insomnia"]},
+      {id:"sleepIssues", label:"Sleep challenges (select all that apply)", type:"checkbox",
+        options:["Difficulty falling asleep","Waking during the night","Waking too early","Night sweats","Restless legs","Sleep apnea / snoring","Needing naps during the day","None"]},
+      {id:"caffeineTime", label:"Latest time you usually have caffeine?", type:"radio",
+        options:["Before noon","12–2 pm","2–4 pm","After 4 pm","I don't drink caffeine"]},
+      {id:"stressLevel", label:"Overall stress level right now", type:"radio", required:true,
+        options:["Low – I feel calm and balanced","Moderate – manageable day to day","High – affects sleep, mood, or eating","Very high – feeling overwhelmed regularly"]},
+      {id:"stressEating", label:"Does stress affect your eating?", type:"radio",
+        options:["No","I eat less when stressed","I eat more when stressed","I crave specific foods when stressed","My eating becomes chaotic under stress"]},
+      {id:"sleepNotes", label:"Anything else about your sleep, recovery, or stress?", type:"textarea"},
+    ]
+  },
+
+  /* ══════════════ PART H — DIET HISTORY ══════════════ */
+  {
+    id:"diet_history", part:"H", partLabel:"Diet History", partColor:"#8C7250", partPale:"#F5EFE8",
+    title:"Diet History & Past Approaches", icon:"📊",
+    color:"#8C7250", pale:"#F5EFE8",
+    fields:[
+      {id:"pastDiets", label:"Diets or eating approaches you have tried (select all that apply)", type:"checkbox",
+        options:["Calorie counting / deficit","Low-carb / Keto","Intermittent fasting","High-protein diet","Mediterranean diet","Vegan / Plant-based","Vegetarian","Paleo","Weight loss program (WeightWatchers, Jenny Craig, etc.)","GLP-1 medication-assisted","Detox / juice cleanse","No specific diet – always ate freely","Other"]},
+      {id:"pastDietDetails", label:"What worked? What didn't? Why did you stop?", type:"textarea",
+        placeholder:"Be honest — this helps Narges design something that actually fits you."},
+      {id:"longestDiet", label:"Longest time you stayed consistent with any eating plan", type:"radio",
+        options:["Never tried a structured plan","Less than 2 weeks","2–4 weeks","1–3 months","3–6 months","6–12 months","Over 1 year"]},
+      {id:"weightHistory", label:"Your weight history over the past 5 years", type:"radio",
+        options:["Stable – within 3–4 kg","Gradual gain over time","Lost weight and kept it off","Lost weight but regained","Yo-yo – up and down frequently","Significant gain (10 kg+)","Significant loss (10 kg+)"]},
+      {id:"dietRelationship", label:"How would you describe your relationship with food?", type:"radio", required:true,
+        options:["Healthy – food is fuel and I enjoy it","Complicated – guilt or anxiety around food","Emotional – I eat when stressed, bored, or sad","Restrictive – I avoid foods out of fear","Chaotic – no pattern, just eat when hungry"]},
+      {id:"eatingDisorder", label:"Have you ever been treated for an eating disorder?", type:"radio",
+        options:["No","Yes – fully recovered","Yes – currently managing"]},
+    ]
+  },
+
+  /* ══════════════ PART I — DAILY MEAL STRUCTURE ══════════════ */
+  {
+    id:"meals", part:"I", partLabel:"Meal Structure", partColor:"#8A9E85", partPale:"#EBF0EA",
+    title:"Daily Meal Structure", icon:"🍽️",
+    color:"#8A9E85", pale:"#EBF0EA",
+    fields:[
+      {id:"firstMealTime", label:"What time is your FIRST meal or drink of the day?", type:"radio", required:true,
+        options:["Before 7:00 am","7:00–8:00 am","8:00–9:00 am","9:00–10:00 am","10:00–11:00 am","11:00 am–12:00 pm","After 12:00 pm"]},
+      {id:"lastMealTime", label:"What time is your LAST meal or snack?", type:"radio", required:true,
+        options:["Before 5:00 pm","5:00–6:00 pm","6:00–7:00 pm","7:00–8:00 pm","8:00–9:00 pm","9:00–10:00 pm","After 10:00 pm"]},
+      {id:"sub_b", label:"BREAKFAST", type:"sublabel"},
+      {id:"eatsBreakfast", label:"Do you eat breakfast?", type:"radio", required:true,
+        options:["Yes – every day","Most days","Weekends only","Rarely","Never – I skip breakfast"]},
+      {id:"breakfastWhat", label:"What does your typical breakfast look like?", type:"textarea",
+        placeholder:"e.g. eggs and toast, oats with fruit, protein shake, coffee only…"},
+      {id:"sub_l", label:"LUNCH", type:"sublabel"},
+      {id:"eatsLunch", label:"Do you eat lunch?", type:"radio", required:true,
+        options:["Yes – every day","Most days","Sometimes","Rarely – I often skip","Never"]},
+      {id:"lunchWhat", label:"What does your typical lunch look like?", type:"textarea",
+        placeholder:"e.g. salad with chicken, leftovers, sandwich, I eat out…"},
+      {id:"sub_d", label:"DINNER", type:"sublabel"},
+      {id:"eatsDinner", label:"Do you eat dinner?", type:"radio", required:true,
+        options:["Yes – every day","Most days","Sometimes","Rarely","Never"]},
+      {id:"dinnerWhat", label:"What does your typical dinner look like?", type:"textarea",
+        placeholder:"e.g. rice and stew, grilled fish with vegetables, pasta…"},
+      {id:"sub_s", label:"SNACKS", type:"sublabel"},
+      {id:"eatsSnacks", label:"Do you eat snacks between meals?", type:"radio", required:true,
+        options:["No – meals only","1 snack (morning or afternoon)","2 snacks (morning and afternoon)","Evening snack only","I snack constantly throughout the day"]},
+      {id:"snackWhat", label:"What are your usual snacks?", type:"textarea",
+        placeholder:"e.g. fruit, nuts, yogurt, crackers, chocolate, nothing…"},
+      {id:"sub_p", label:"PATTERNS", type:"sublabel"},
+      {id:"largestMeal", label:"Which meal is usually your largest?", type:"radio",
+        options:["Breakfast","Lunch","Dinner","They are roughly equal","It changes day to day"]},
+      {id:"nightEating", label:"Do you eat after 8 pm?", type:"radio",
+        options:["Never","Occasionally","Often","Almost every night"]},
+      {id:"fastingWindow", label:"Do you practice intermittent fasting?", type:"radio",
+        options:["No","Yes – 14:10","Yes – 16:8","Yes – 18:6 or longer","Custom window"]},
+      {id:"fastingHours", label:"If fasting — what are your eating hours? (e.g. 11 am – 6 pm)", type:"text"},
+      {id:"cookingFreq", label:"How often do you cook at home?", type:"radio",
+        options:["Every day","Most days (5–6×/week)","A few times a week","Once or twice a week","Rarely – mostly takeout"]},
+      {id:"cookingTime", label:"Time available for meal prep per day", type:"radio",
+        options:["Under 20 minutes","20–30 minutes","30–45 minutes","45–60 minutes","I batch cook on weekends"]},
+    ]
+  },
+
+  /* ══════════════ PART J — MACROS & FOOD ══════════════ */
+  {
+    id:"macros", part:"J", partLabel:"Macros & Food", partColor:"#C9A84C", partPale:"#F5EDD8",
+    title:"Macros & Food Choices", icon:"⚖️",
+    color:"#C9A84C", pale:"#F5EDD8",
+    fields:[
+      {id:"dietStyle", label:"Current dietary style (select all that apply)", type:"checkbox",
+        options:["No specific style – eat everything","Halal","Vegetarian","Vegan","Pescatarian","Gluten-free","Dairy-free","Low-carb","Mediterranean-style","Other"]},
+      {id:"proteinAwareness", label:"How aware are you of your protein intake?", type:"radio", required:true,
+        options:["Not aware – I don't think about it","Slightly aware – I know it matters but don't track","Moderately aware – I try to include protein each meal","Very aware – I aim for a daily target","I track macros precisely"]},
+      {id:"proteinSources", label:"Preferred protein sources (select all that apply)", type:"checkbox",
+        options:["Chicken breast","Chicken thigh","Beef / Lamb","Fish (salmon, tuna, cod)","Shrimp / Seafood","Eggs","Egg whites","Greek yogurt","Cottage cheese","Lentils / Chickpeas","Tofu / Tempeh","Protein powder (whey)","Protein powder (plant-based)","Canned fish","Low-fat cheese"]},
+      {id:"carbRelationship", label:"How do you feel about carbohydrates?", type:"radio",
+        options:["I love carbs – rice, bread, pasta daily","I eat moderate carbs and feel fine","I try to limit carbs – they cause bloating or weight gain","I follow a low-carb or keto plan","I prefer complex carbs (oats, sweet potato, legumes)"]},
+      {id:"carbSources", label:"Typical carbohydrate sources (select all that apply)", type:"checkbox",
+        options:["White rice","Brown rice / quinoa","Bread (white)","Bread (whole grain / sourdough)","Pasta","Oats / porridge","Sweet potato","Regular potato","Lentils / beans","Fruit","Crackers / rice cakes","Sugary snacks / desserts","Minimal carbs"]},
+      {id:"fatSources", label:"Fat sources you eat regularly (select all that apply)", type:"checkbox",
+        options:["Olive oil","Avocado","Nuts (almonds, walnuts)","Seeds (chia, flax, pumpkin)","Full-fat dairy","Butter / ghee","Fatty fish (salmon, mackerel)","Coconut oil","Processed / fried foods","Minimal fats"]},
+      {id:"vegIntake",   label:"Vegetable servings per day",  type:"radio", options:["0–1","2–3","4–5","5+"]},
+      {id:"fruitIntake", label:"Fruit servings per day",      type:"radio", options:["None","1 piece","2 pieces","3+ pieces"]},
+      {id:"waterIntake", label:"Daily water intake",          type:"radio", options:["Under 1 L","1–1.5 L","1.5–2 L","2–2.5 L","2.5+ L"]},
+      {id:"sugarHabit",  label:"Added sugar daily",           type:"radio", options:["Very little – I avoid it","Moderate – occasional treat","High – I crave sweets daily","Multiple times a day"]},
+      {id:"saltHabit",   label:"Salt intake",                 type:"radio", options:["Rarely add salt","Sometimes","Often – I crave salty foods","Generally high in sodium"]},
+      {id:"dislikedFoods", label:"Foods you strongly dislike or refuse to eat", type:"textarea",
+        placeholder:"e.g. mushrooms, liver, bitter greens, spicy food…"},
+    ]
+  },
+
+  /* ══════════════ PART K — CRAVINGS & CHALLENGES ══════════════ */
+  {
+    id:"cravings", part:"K", partLabel:"Habits & Challenges", partColor:"#B05040", partPale:"#FDF3F0",
+    title:"Cravings & Eating Challenges", icon:"🍎",
+    color:"#B05040", pale:"#FDF3F0",
+    fields:[
+      {id:"cravingsTypes", label:"Cravings you experience regularly (select all that apply)", type:"checkbox",
+        options:["Sweet / sugary foods","Salty / savoury snacks","Carbs (bread, pasta, rice)","Chocolate","Fatty / fried foods","Caffeine","Late-night eating urge","Emotional eating urge","I rarely have cravings"]},
+      {id:"cravingsTrigger", label:"What usually triggers your cravings?", type:"checkbox",
+        options:["Stress or anxiety","Boredom","Tiredness / poor sleep","Hormonal changes (PMS, cycle)","Habit or routine","Skipping meals","Being around food / social eating","Screen time / TV","No clear trigger"]},
+      {id:"emotionalEating", label:"How often do you eat for emotional reasons?", type:"radio",
+        options:["Never","Occasionally","Often – it's my main coping tool","I am actively working on this"]},
+      {id:"biggestChallenge", label:"Your biggest nutrition challenge right now (select all that apply)", type:"checkbox",
+        options:["Skipping meals","Portion control","Eating too quickly","Social eating / pressure","Inconsistency on weekends","No time to cook","Low appetite","Too much appetite","Late-night eating","Cravings I can't control","Not knowing what to eat","Cooking for family vs. eating healthy"]},
+      {id:"eatOut",     label:"How often do you eat out or order in?", type:"radio",
+        options:["Rarely (once a month)","1–2 times per week","3–4 times per week","Almost daily"]},
+      {id:"alcoholFreq",label:"Alcohol consumption", type:"radio",
+        options:["None","Occasional (special occasions only)","1–2 times per week","3+ times per week"]},
+    ]
+  },
+
+  /* ══════════════ PART L — GOALS & PLAN STYLE ══════════════ */
+  {
+    id:"goals", part:"L", partLabel:"Goals", partColor:"#8A9E85", partPale:"#EBF0EA",
+    title:"Goals & Plan Preferences", icon:"🎯",
+    color:"#8A9E85", pale:"#EBF0EA",
+    fields:[
+      {id:"sub_fitgoal", label:"FITNESS GOALS", type:"sublabel"},
+      {id:"primaryFitnessGoal", label:"Primary fitness goal", type:"radio", required:true,
+        options:["Lose body fat / weight loss","Build muscle and strength","Improve posture and alignment","Increase flexibility and mobility","Manage pain or injury rehabilitation","Boost energy and overall health","Postpartum recovery","Active aging and longevity","Other"]},
+      {id:"sessionsPerWeek", label:"Sessions per week you are committing to", type:"radio", required:true,
+        options:["1 session","2 sessions","3 sessions","4+ sessions"]},
+      {id:"coachingStyle", label:"Coaching style that works best for you (select all that apply)", type:"checkbox",
+        options:["Gentle encouragement","Direct and no-nonsense","Explain everything – I want to understand why","Just tell me what to do","Celebrate small wins","Push me when I want to give up"]},
+      {id:"sub_nutgoal", label:"NUTRITION GOALS", type:"sublabel"},
+      {id:"primaryNutGoal", label:"Primary nutrition goal", type:"radio", required:true,
+        options:["Lose body fat through diet","Build a healthy lifestyle and better habits","Build muscle – increase protein intake","Balance hormones through food","Manage a health condition (diabetes, thyroid, PCOS)","Improve energy and reduce fatigue","Reduce bloating and improve digestion","Postpartum recovery and nourishment","Other"]},
+      {id:"secondaryGoals", label:"Secondary goals (select all that apply)", type:"checkbox",
+        options:["Reduce body fat %","Gain lean muscle","Improve gut health","Reduce inflammation","Stabilize blood sugar","Lower cholesterol","Improve skin, hair, and nails","Better sleep through nutrition","Reduce stress eating","Build a sustainable long-term routine"]},
+      {id:"sub_planstyle", label:"HOW DO YOU WANT YOUR PLAN?", type:"sublabel"},
+      {id:"planStyle", label:"What type of nutrition support do you want from Narges?", type:"radio", required:true,
+        options:["Give me an exact weekly meal plan – breakfast, lunch, dinner, snacks every day","Give me a variety of meal options to choose from each day","Give me flexible guidelines and principles – I will build my own meals","Give me tips and food swaps – no strict plan","A combination – a plan with flexibility built in"]},
+      {id:"planFlexibility", label:"How strict do you want the plan to be?", type:"radio",
+        options:["Very strict – I want to follow it exactly","Moderately strict – 80/20 rule is fine","Flexible – I need to adapt it to my family and social life","Very flexible – general direction only"]},
+      {id:"cuisinePreference", label:"Cuisine preferences (select all that apply)", type:"checkbox",
+        options:["Persian / Middle Eastern","Mediterranean","Asian (Japanese, Korean, Thai)","Indian / South Asian","North American","Simple – easy quick meals","Mix of everything","No preference"]},
+      {id:"budgetLevel", label:"Weekly grocery budget for yourself", type:"radio",
+        options:["Under $50","$50–$80","$80–$120","$120–$160","Over $160 – quality is my priority"]},
+      {id:"timeline", label:"Your goal timeline", type:"radio",
+        options:["1–3 months","3–6 months","6–12 months","Long-term lifestyle change"]},
+      {id:"successLooks", label:"What does success look like for you in 3 months?", type:"textarea",
+        placeholder:"Describe what you want to feel, see, or be able to do…"},
+      {id:"additionalNotes", label:"Anything else Narges should know before your first session?", type:"textarea"},
+    ]
+  },
+];
+
+/* ─── STATE ─────────────────────────── */
+let step = 0;
+const answers = {};
+const TOTAL = SECTIONS.length;
+
+/* ─── RENDER ─────────────────────────── */
+function render() {
+  updateProgress();
+  const app = document.getElementById('app');
+  if (step === 0)         { app.innerHTML = renderWelcome(); bindWelcome(); return; }
+  if (step === TOTAL + 1) { app.innerHTML = renderSummary(); bindSummary(); return; }
+  const sec = SECTIONS[step - 1];
+  app.innerHTML = renderSection(sec);
+  bindSection(sec);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateProgress() {
+  const pct = step===0 ? 0 : step===TOTAL+1 ? 100 : Math.round((step/TOTAL)*100);
+  document.getElementById('progressBar').style.width = pct+'%';
+  const info = document.getElementById('progressInfo');
+  if (step===0||step===TOTAL+1) { info.innerHTML=''; return; }
+  const sec = SECTIONS[step-1];
+  info.innerHTML = `Part <span>${sec.part}</span> · ${step} / ${TOTAL}`;
+}
+
+/* ─── WELCOME ─────────────────────────── */
+function renderWelcome() {
+  const parts = {};
+  SECTIONS.forEach(s => {
+    if (!parts[s.part]) parts[s.part] = {label:s.partLabel, color:s.partColor, pale:s.partPale, sections:[]};
+    parts[s.part].sections.push(s);
+  });
+  let html = '';
+  Object.values(parts).forEach(p => {
+    const pills = p.sections.map(s =>
+      `<div class="section-pill"><span class="pill-icon">${s.icon}</span>${s.title}</div>`
+    ).join('');
+    html += `<div class="part-block">
+      <div class="part-heading" style="background:${p.pale};color:${p.color}">${p.label}</div>
+      <div class="section-grid">${pills}</div>
+    </div>`;
+  });
+  return `
+    <div class="welcome">
+      <div class="welcome-emoji">🌿</div>
+      <h1>Fitna Club<br>Complete Client Intake</h1>
+      <p>This form gives Narges everything she needs to build your personalised fitness program and nutrition plan — safe, specific to your body, and designed around your real life.</p>
+      ${html}
+      <button class="btn btn-next" style="background:#8A9E85;padding:15px 44px;font-size:15px;border-radius:12px;margin-top:8px" id="startBtn">Begin Intake →</button>
+      <p style="margin-top:13px;font-size:11px;color:var(--muted)">12 sections · ~15 minutes · Your answers go directly to Narges</p>
+    </div>`;
+}
+function bindWelcome() {
+  document.getElementById('startBtn').onclick = () => { step=1; render(); };
+}
+
+/* ─── SECTION ─────────────────────────── */
+function renderSection(sec) {
+  const fields = sec.fields.map(f => renderField(f)).join('');
+  return `
+    <div class="section-header">
+      <div class="section-icon" style="background:${sec.pale};border:1.5px solid ${sec.color}30">${sec.icon}</div>
+      <div>
+        <div class="section-eyebrow" style="color:${sec.color}">Part ${sec.part} · Section ${step} of ${TOTAL}</div>
+        <div class="section-title">${sec.title}</div>
+      </div>
+    </div>
+    <div class="card">${fields}</div>
+    <div class="nav">
+      <button class="btn btn-back" id="backBtn">← Back</button>
+      <button class="btn btn-next" id="nextBtn" style="background:${sec.color}">
+        ${step===TOTAL ? 'Review My Answers →' : 'Continue →'}
+      </button>
+    </div>`;
+}
+
+function renderField(f) {
+  if (f.type==='sublabel') return `<div class="sub-label">${f.label}</div>`;
+  const val = answers[f.id];
+  let input = '';
+  if (['text','number','date','time'].includes(f.type)) {
+    input = `<input type="${f.type}" id="${f.id}" value="${val||''}" placeholder="${f.placeholder||''}">`;
+  } else if (f.type==='textarea') {
+    input = `<textarea id="${f.id}" rows="3" placeholder="${f.placeholder||''}">${val||''}</textarea>`;
+  } else if (f.type==='radio') {
+    input = `<div class="options" data-field="${f.id}" data-type="radio">` +
+      (f.options||[]).map(o => {
+        const s = val===o?' selected':'';
+        return `<div class="opt-item${s}" data-value="${o}"><div class="opt-marker radio">${s?'●':''}</div>${o}</div>`;
+      }).join('') + '</div>';
+  } else if (f.type==='checkbox') {
+    const cur = Array.isArray(val)?val:[];
+    input = `<div class="options" data-field="${f.id}" data-type="checkbox">` +
+      (f.options||[]).map(o => {
+        const s = cur.includes(o)?' selected':'';
+        return `<div class="opt-item${s}" data-value="${o}"><div class="opt-marker checkbox">${s?'✓':''}</div>${o}</div>`;
+      }).join('') + '</div>';
+  }
+  return `
+    <div class="field" id="field-${f.id}">
+      <label for="${f.id}">${f.label}${f.required?'<span class="req">*</span>':''}</label>
+      ${f.hint?`<div class="hint">${f.hint}</div>`:''}
+      ${input}
+      <div class="err-msg" id="err-${f.id}">This field is required.</div>
+    </div>`;
+}
+
+function bindSection(sec) {
+  document.querySelectorAll('.options').forEach(group => {
+    const fid = group.dataset.field;
+    const type = group.dataset.type;
+    group.querySelectorAll('.opt-item').forEach(item => {
+      item.onclick = () => {
+        const v = item.dataset.value;
+        if (type==='radio') {
+          group.querySelectorAll('.opt-item').forEach(i=>{i.classList.remove('selected');i.querySelector('.opt-marker').innerHTML='';});
+          item.classList.add('selected'); item.querySelector('.opt-marker').innerHTML='●';
+          answers[fid]=v;
+        } else {
+          const cur=Array.isArray(answers[fid])?[...answers[fid]]:[];
+          if(cur.includes(v)){answers[fid]=cur.filter(x=>x!==v);item.classList.remove('selected');item.querySelector('.opt-marker').innerHTML='';}
+          else{answers[fid]=[...cur,v];item.classList.add('selected');item.querySelector('.opt-marker').innerHTML='✓';}
+        }
+        clearErr(fid);
+      };
+    });
+  });
+  ['text','number','date','time'].forEach(t=>{
+    document.querySelectorAll(`input[type="${t}"]`).forEach(el=>{el.oninput=()=>{answers[el.id]=el.value;clearErr(el.id);};});
+  });
+  document.querySelectorAll('textarea').forEach(el=>{el.oninput=()=>{answers[el.id]=el.value;};});
+  document.querySelectorAll('select').forEach(el=>{el.onchange=()=>{answers[el.id]=el.value;clearErr(el.id);};});
+  document.getElementById('backBtn').onclick=()=>{step--;render();window.scrollTo({top:0});};
+  document.getElementById('nextBtn').onclick=()=>{if(validateSection(sec)){step++;render();}};
+}
+
+function clearErr(fid) {
+  const e=document.getElementById('err-'+fid); const f=document.getElementById('field-'+fid);
+  if(e)e.classList.remove('show'); if(f)f.classList.remove('has-error');
+}
+function validateSection(sec) {
+  let ok=true;
+  sec.fields.forEach(f=>{
+    if(!f.required)return;
+    const v=answers[f.id];
+    if(!v||(Array.isArray(v)&&v.length===0)||v===''){
+      ok=false;
+      const e=document.getElementById('err-'+f.id); const fi=document.getElementById('field-'+f.id);
+      if(e)e.classList.add('show'); if(fi)fi.classList.add('has-error');
+    }
+  });
+  if(!ok){const fe=document.querySelector('.has-error');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});}
+  return ok;
+}
+
+/* ─── SUMMARY ─────────────────────────── */
+function renderSummary() {
+  const cards = SECTIONS.map(sec=>{
+    const rows = sec.fields
+      .filter(f=>f.type!=='sublabel')
+      .filter(f=>{const v=answers[f.id];return v&&!(Array.isArray(v)&&v.length===0)&&v!=='';})
+      .map(f=>{
+        const v=answers[f.id];
+        const display=Array.isArray(v)?v.join(', '):v;
+        const lbl=f.label.replace(/\(select all.*?\)/gi,'').replace(/\(select.*?\)/gi,'').trim();
+        return `<div class="summary-row"><span class="summary-label">${lbl}</span><span class="summary-value">${display}</span></div>`;
+      }).join('');
+    if(!rows)return'';
+    return `<div class="summary-card">
+      <div class="summary-section-head">
+        <span style="width:26px;height:26px;background:${sec.pale};border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:14px">${sec.icon}</span>
+        Part ${sec.part} — ${sec.title}
+      </div>${rows}</div>`;
+  }).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:26px">
+      <div style="font-size:44px;margin-bottom:10px">✅</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--brown);margin-bottom:7px">All done!</h2>
+      <p style="color:var(--muted);font-size:14px;line-height:1.65">Review your answers below, then send them directly to Narges.</p>
+    </div>
+    ${cards}
+    <button class="btn-email" id="emailBtn">📧 Send My Answers to Narges</button>
+    <button class="btn-dl" id="dlBtn">⬇ Download a copy (.txt)</button>
+    <button class="btn-dl" style="margin-top:8px" id="editBtn">← Go back and edit</button>
+    <div class="thank-box">
+      🌿 <strong>Thank you!</strong> Narges will review your intake and reach out to plan your first session.<br>
+      <span style="font-size:12px">📲 <strong>@fitna.club</strong> &nbsp;·&nbsp; fitnaclub.com</span>
+    </div>`;
+}
+
+function buildText() {
+  const name=answers['name']||'Client';
+  const date=new Date().toLocaleDateString('en-CA');
+  let body=`FITNA CLUB — Complete Client Intake\nClient: ${name}\nDate: ${date}\n${'='.repeat(55)}\n`;
+  SECTIONS.forEach(sec=>{
+    body+=`\n\n◆ PART ${sec.part} — ${sec.title.toUpperCase()}\n`;
+    sec.fields.forEach(f=>{
+      if(f.type==='sublabel')return;
+      const v=answers[f.id];
+      if(!v||(Array.isArray(v)&&v.length===0)||v==='')return;
+      const lbl=f.label.replace(/\(select all.*?\)/gi,'').trim();
+      const disp=Array.isArray(v)?v.join(', '):v;
+      body+=`\n  ${lbl}:\n  ${disp}\n`;
+    });
+  });
+  return body;
+}
+
+function bindSummary() {
+  document.getElementById('emailBtn').onclick=()=>{
+    const name=answers['name']||'New Client';
+    const subj=encodeURIComponent(`Fitna Club Intake – ${name}`);
+    const body=encodeURIComponent(buildText());
+    window.location.href=`mailto:narges@fitnaclub.com?subject=${subj}&body=${body}`;
+  };
+  document.getElementById('dlBtn').onclick=()=>{
+    const name=answers['name']||'Client';
+    const blob=new Blob([buildText()],{type:'text/plain'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=`Fitna-Intake-${name.replace(/\s+/g,'-')}.txt`;a.click();
+    URL.revokeObjectURL(url);
+  };
+  document.getElementById('editBtn').onclick=()=>{step=TOTAL;render();window.scrollTo({top:0});};
+}
+
+render();
+</script>
+</body>
+</html>
